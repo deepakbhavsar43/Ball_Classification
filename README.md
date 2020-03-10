@@ -4,7 +4,7 @@
 This is one of the simplest machine learning project to get started.
 
 #### What is the project about?
-This project predicts whether the lable of hiven input data. Whether it is a **Tennis Ball** or **Cricket Ball**.
+This project predicts the lable of hiven input data Whether it is a **Tennis Ball** or **Cricket Ball**.
 
 #### Understanding the project:
 - First of all we need to read the dataset from the given **Ball_Dataset.csv** file
