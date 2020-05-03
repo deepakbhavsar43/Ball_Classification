@@ -39,5 +39,7 @@ training = dtc.fit(xTrain, yTrain)
 
 # predicting
 yPredict = dtc.predict(xTest)
+
+# Displaying the result
 print("Input ta given to model :\n", xTest)
 print("Predicted label by the model :\n", yPredict, end="\n")
