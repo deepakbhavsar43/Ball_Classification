@@ -79,15 +79,6 @@ if __name__ == "__main__":
     X, Y = obj.read_dataset()
     xTrain, xTest, yTrain, yTest = obj.split(X, Y)
     d_tree = 0
-    # if args.train:
-    #     model = obj.train(xTrain, yTrain)
-    #     obj.wr_pickle(model, Trained_Model_File)
-    #     print("Model Trained")
-    # elif args.test:
-    #     trained = obj.rd_pickle(Trained_Model_File)
-    #     # print(type(trained))
-    #     obj.predict_label(trained, xTest)
-    #     obj.score(trained, yTest)
 
     if args.train:
         model = obj.train(xTrain, yTrain)
