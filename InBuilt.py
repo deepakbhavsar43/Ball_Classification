@@ -3,8 +3,8 @@ import pickle
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from userInput import *
-
+# from commands import userInput as uic
+from commands import userInput as uic
 
 # Converted textual data into numbers manually
 # 0 = Rough, Tennis
@@ -37,14 +37,16 @@ class Dataset:
         self.training = dtc.fit(xTrain, yTrain)
         return self.training
 
+    def test(self, model, xTest):
+         self.yPredict = model.predict(xTest)
+
     def predict_label(self, model, xTest):
-        # Dataset.rd_pickle()
         # predicting
         self.yPredict = model.predict(xTest)
         # Displaying the result
-        print("0 = Rough, Tennis\n1 = Smooth, Cricket")
-        print("\nInput given to model :\n", xTest)
-        print("\nPredicted label by the model :")
+        # print("0 = Rough, Tennis\n1 = Smooth, Cricket")
+        # print("\nInput given to model :\n", xTest)
+        # print("\nPredicted label by the model :")
         for lbl in self.yPredict:
             if lbl == 0:
                 print("Tennis")
@@ -54,7 +56,7 @@ class Dataset:
     def score(self, model, yTest):
         # Calculate accuracy of the model
         accuracy = accuracy_score(yTest, self.yPredict, sample_weight=None)
-        print("Accuracy : ", accuracy * 100)
+        print("Accuracy using inbuilt algorithm : ", accuracy * 100)
         return self.yPredict
 
     def wr_pickle(self, train, model):
@@ -74,18 +76,32 @@ class Dataset:
 
 if __name__ == "__main__":
     CSVFileName = "Dataset/Ball_Dataset.csv"
-    Trained_Model_File = "Trained_Model/trained_data"
+    Trained_Model_File = "Trained_Model/Inbuilt/trained_data"
     obj = Dataset(CSVFileName)
     X, Y = obj.read_dataset()
     xTrain, xTest, yTrain, yTest = obj.split(X, Y)
     d_tree = 0
 
-    if args.train:
+    if uic.args.train:
+        print(uic.args.train)
         model = obj.train(xTrain, yTrain)
         obj.wr_pickle(model, Trained_Model_File)
         print("Model Trained")
-    elif args.test:
+    elif uic.args.test:
         trained = obj.rd_pickle(Trained_Model_File)
-        # print(type(trained))
-        obj.predict_label(trained, xTest)
+        obj.test(trained, xTest)
         obj.score(trained, yTest)
+    elif uic.args.predict:
+        w, s = [], []
+        w.append(uic.args.weight)
+        if uic.args.surface == 'Rough':
+            s.append(0)
+        elif uic.args.surface== 'Smooth':
+            s.append(1)
+        to_predict = pd.DataFrame({
+            "weight": w,
+            "surface": s
+        })
+        # print(to_predict)
+        trained = obj.rd_pickle(Trained_Model_File)
+        print(obj.predict_label(trained, to_predict))

@@ -1,10 +1,8 @@
 import pandas as pd
-import numpy as np
 import pickle
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
-from userInput import *
 import streamlit as st
 
 # Converted textual data into numbers manually
@@ -95,9 +93,10 @@ if __name__ == "__main__":
     xTrain, xTest, yTrain, yTest = obj.split(X, Y)
 
     if st.button('Train Model'):
-        model = obj.train(xTrain, yTrain)
-        obj.wr_pickle(model, Trained_Model_File)
-        st.write("Model Training Sucessfull...")
+        with st.spinner('Predicting...'):
+            model = obj.train(xTrain, yTrain)
+            obj.wr_pickle(model, Trained_Model_File)
+            st.write("Model Training Sucessfull...")
 
     trained = obj.rd_pickle(Trained_Model_File)
     st.subheader('Give ball data to predict it\'s type:')
