@@ -78,7 +78,7 @@ class Dataset:
 if __name__ == "__main__":
     st.title("Ball Classification")
     CSVFileName = "Dataset/Ball_Dataset.csv"
-    Trained_Model_File = "Trained_Model/trained_data"
+    Trained_Model_File = "Trained_Model/Inbuilt/trained_data"
     obj = Dataset(CSVFileName)
     X, Y = obj.read_dataset()
 
