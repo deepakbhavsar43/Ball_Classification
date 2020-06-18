@@ -92,13 +92,19 @@ if __name__ == "__main__":
 
     xTrain, xTest, yTrain, yTest = obj.split(X, Y)
 
-    if st.button('Train Model'):
+    if st.sidebar.button('Train Model'):
         with st.spinner('Predicting...'):
             model = obj.train(xTrain, yTrain)
             obj.wr_pickle(model, Trained_Model_File)
-            st.write("Model Training Sucessfull...")
+            st.success("Model Training Sucessfull...")
 
-    trained = obj.rd_pickle(Trained_Model_File)
+    if st.sidebar.button('Test Model'):
+        trained_model = obj.rd_pickle(Trained_Model_File)
+        labels = obj.predict_label(trained_model, xTest)
+        acc = accuracy_score(yTest,labels)
+        st.write("Accuracy :\n",acc)
+        st.success('Model tested successfully...')
+
     st.subheader('Give ball data to predict it\'s type:')
     title = st.text_input('Enter ball features(weight & surface) separated by space', ' ')
     x = title.split(' ')
@@ -108,6 +114,7 @@ if __name__ == "__main__":
         'Surface': [x[1]]
     })
 
-    if st.button('Test Model'):
+    if st.button('Predict'):
+        trained = obj.rd_pickle(Trained_Model_File)
         st.write('Model Tested...')
         st.write("Predicted Label is ", obj.predict_label(trained, x))
